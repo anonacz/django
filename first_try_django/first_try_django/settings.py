@@ -81,8 +81,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'pepa_test',
-        'USER': 'pepa',
-        'PASSWORD': 'pepa',
+        'USER': 'pepadb',
+        'PASSWORD': 'pepadb',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
