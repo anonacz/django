@@ -1,61 +1,14 @@
-{% load staticfiles %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional is http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <meta http-equiv="Content-Language" content="cs" />
-    <link href="{% static 'mystyle.css' %}" rel="stylesheet" type="text/css" />
-<!--	<script type="text/javascript" src="{% static 'myscripti2.js' %}"></script> -->
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-    <!--    <link href="styles/style.css" rel="stylesheet" type="text/css" /> -->
-
-    <title>Test</title>
-  </head>
-
-  <body>
-  <h1>Test</h1>
-  <h2>Links</h2>
-<table>
-  <tr>
-    <td><a href="./">1</a></td>
-    <td><a href="./2">2</a></td>
-    <td><a href="./3">3</a></td>
-  </tr>
-</table>
-
-<h1>{{ name }}</h1>
-
-  <br/ >
-  <h2>Show transition graph</h2>
-<form action="." method="post">
-  <select name="ip">
-    <option value="all">all</option>
-###options###
-  </select>
-  <input type="submit">
-</form>
-
-{{ headers | safe }}
-
-<div class="pictohide">###picnote###</div>
-
-<!-- <div class="right-arrow"></div> --> <div class="pic"> </div>
-<p></p>
-
-
-<div id="graph"> </div>
-<script type="text/javascript">
-// http://blog.thomsonreuters.com/index.php/mobile-patent-suits-graphic-of-the-day/                                                                                    
+// http://blog.thomsonreuters.com/index.php/mobile-patent-suits-graphic-of-the-day/
 var links = [  
-  {source: "C", target: "B", type: "suit", lname: "12"},
-  {source: "A", target: "B", type: "suit", lname: "11"},
-  {source: "A", target: "C", type: "licensing", lname: "41"},
-  {source: "B", target: "A", type: "suit", lname: "31"},
-  {source: "B", target: "C", type: "suit", lname: "41"},
-  {source: "C", target: "A", type: "licensing", lname: "21"},
-  {source: "Exit", target: "C", type: "resolved", lname: "31"},
-  {source: "Exit", target: "A", type: "resolved", lname: "12"},
-  {source: "Exit", target: "B", type: "resolved", lname: "11"},
+  {source: "ZTE", target: "Motorola", type: "suit"},
+  {source: "Microsoft", target: "Motorola", type: "suit"},
+  {source: "Microsoft", target: "ZTE", type: "suit"},
+  {source: "Motorola", target: "Microsoft", type: "suit"},
+  {source: "Motorola", target: "ZTE", type: "suit"},
+  {source: "ZTE", target: "Microsoft", type: "licensing"},
+  {source: "Kodak", target: "ZTE", type: "resolved"},
+  {source: "Kodak", target: "Microsoft", type: "resolved"},
+  {source: "Kodak", target: "Motorola", type: "resolved"},
 
 ];
 
@@ -82,6 +35,7 @@ var force = d3.layout.force()
 var svg = d3.select("#graph").append("svg:svg")
     .attr("width", w)
     .attr("height", h);
+
 // Per-type markers, as they don't inherit styles.
 svg.append("svg:defs").selectAll("marker")
     .data(["suit", "licensing", "resolved"])
@@ -113,7 +67,7 @@ var circle = svg.append("svg:g").selectAll("circle")
     .data(force.nodes())
   .enter().append("svg:circle")
     .attr("r", 6)
-    .call(force.drag);                                                                                                                                                 
+    .call(force.drag);
 
 var text = svg.append("svg:g").selectAll("g")
     .data(force.nodes())
@@ -141,7 +95,7 @@ var path_label = svg.append("svg:g").selectAll(".path_label")
       .attr("xlink:href", function(d) { return "#" + d.source.index + "_" + d.target.index; })
       .style("fill", "#000")
       .style("font-family", "Arial")
-      .text(function(d) { return d.lname; }); // text lable of link
+      .text(function(d) { return d.type; });
 
     function arcPath(leftHand, d) {
         var start = leftHand ? d.source : d.target,
@@ -149,7 +103,7 @@ var path_label = svg.append("svg:g").selectAll(".path_label")
             dx = end.x - start.x,
             dy = end.y - start.y,
             dr = Math.sqrt(dx * dx + dy * dy),
-            sweep = leftHand ? 0 : 1;                                                                                                                                  
+            sweep = leftHand ? 0 : 1;
         return "M" + start.x + "," + start.y + "A" + dr + "," + dr + " 0 0," + sweep + " " + end.x + "," + end.y;
     }
 
@@ -170,9 +124,4 @@ function tick() {
   text.attr("transform", function(d) {
     return "translate(" + d.x + "," + d.y + ")";
   });
-} 
-
-</script>
-
-  </body>
-</html>
+}

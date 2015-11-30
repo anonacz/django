@@ -16,6 +16,8 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR2 = os.path.dirname(__file__)
 
+#print BASE_DIR2
+#print BASE_DIR
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -77,8 +79,12 @@ WSGI_APPLICATION = 'first_try_django.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'pepa_test',
+        'USER': 'pepa',
+        'PASSWORD': 'pepa',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
@@ -100,7 +106,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
+#print os.path.join(BASE_DIR2, "static")
+
 STATIC_URL = '/static/'
+#STATIC_URL = os.path.join(BASE_DIR2, "static/")
+#print STATIC_URL
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR2, "static"),
 )
